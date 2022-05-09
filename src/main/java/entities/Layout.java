@@ -6,6 +6,8 @@ public enum Layout {
     JOINT("joint"),
     SUITE("suite");
 
+
+
     private final String text;
 
     Layout(String text) {
