@@ -1,6 +1,6 @@
 package database.interfaces;
 
-import entities.User;
+import entities.Users.User;
 import services.UserService;
 
 import java.util.List;
@@ -10,6 +10,8 @@ public interface UserDAO {
     void registerUser(User user);
 
     UserService.UserInfo findUser(String name, String password);
+
+    void editUser(User user);
 
     List<User> getClientUsers();
 

@@ -2,10 +2,10 @@ package database.implementations;
 
 import database.Connection_db;
 import database.interfaces.UserDAO;
-import entities.Administrator;
-import entities.Client;
-import entities.User;
-import entities.UserRole;
+import entities.Users.Administrator;
+import entities.Users.Client;
+import entities.Users.User;
+import entities.Users.UserRole;
 import services.UserService;
 
 import java.sql.Connection;
@@ -18,7 +18,6 @@ import java.util.logging.Logger;
 
 public class User_impl implements UserDAO {
     private static final Logger log = Logger.getLogger(User_impl.class.getName());
-
     private static final String USER_BY_ID_QUERY =
             "SELECT users.id, name, password, role FROM users WHERE users.id = ?";
     private static final String GET_ALL_USERS_QUERY =
@@ -26,7 +25,9 @@ public class User_impl implements UserDAO {
     private static final String CHECK_USER_QUERY =
             "SELECT users.id, users.role FROM users WHERE name = ? AND password = ?";
     private static final String ADD_USER_QUERY =
-            "INSERT INTO users(id,name, password,role) VALUES (?,?, ?, ? )";
+            "INSERT INTO users(name, password,role) VALUES (?, ?, ? )";
+    private static final String EDIT_USER_QUERY =
+            "UPDATE users SET  id = ?, name = ?, role = ?, password = ? WHERE id = ?";
 
     @Override
     public void registerUser(User user) {
@@ -36,14 +37,13 @@ public class User_impl implements UserDAO {
         }
         Connection con = Connection_db.getConnection();
         try (PreparedStatement prepareStatement = con.prepareStatement(ADD_USER_QUERY)) {
-            prepareStatement.setInt(1, user.getId());
-            prepareStatement.setString(2, user.getName());
-            prepareStatement.setString(3, user.getPassword());
-            prepareStatement.setString(4, String.valueOf(user.getRole()));
+            prepareStatement.setString(1, user.getName());
+            prepareStatement.setString(2, user.getPassword());
+            prepareStatement.setString(3, String.valueOf(user.getRole()));
             if (prepareStatement.executeUpdate() <= 0) {
                 log.warning("Cannot register user.");
             }
-            log.warning("User successfully added!");
+            log.info("User successfully added!");
         } catch (SQLException ex) {
             log.warning("Problems with connection");
             System.out.println(ex.getMessage());
@@ -69,6 +69,28 @@ public class User_impl implements UserDAO {
             log.warning("Problems with connection");
         }
         return null;
+    }
+    @Override
+    public void editUser(User user) {
+        if (user == null) {
+            log.info("Cannot add product because it was null.");
+            return;
+        }
+        Connection connection = Connection_db.getConnection();
+        log.info("Connected to the database.");
+        try (PreparedStatement prepareStatement = connection.prepareStatement(EDIT_USER_QUERY)) {
+            prepareStatement.setInt(1, user.getId());
+            prepareStatement.setString(2, user.getName());
+            prepareStatement.setString(3, user.getRole().toString());
+            prepareStatement.setString(4, user.getPassword());
+            prepareStatement.setInt(5, user.getId());
+            if (prepareStatement.executeUpdate() <= 0) {
+                log.info("Cannot add product.");
+            }
+        } catch (SQLException e) {
+            log.warning("Problems with connection");
+        }
+
     }
 
     @Override
@@ -120,4 +142,10 @@ public class User_impl implements UserDAO {
         }
         return user;
     }
+
+//    public static void main(String[] args) throws Exception {
+//        Connection_db connection_db = new Connection_db();
+//        User_impl x = new User_impl();
+//        x.registerUser(new User("Inna","I6957",UserRole.CLIENT));
+//    }
 }

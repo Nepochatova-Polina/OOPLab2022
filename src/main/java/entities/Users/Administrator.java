@@ -1,6 +1,6 @@
-package entities;
+package entities.Users;
 
-public class Administrator extends User{
+public class Administrator extends User {
 
     public Administrator(int id, String name, String password) {
         super(id, name, password, UserRole.ADMINISTRATOR);

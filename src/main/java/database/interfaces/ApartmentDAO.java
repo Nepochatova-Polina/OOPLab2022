@@ -1,7 +1,6 @@
 package database.interfaces;
 
-import entities.Apartment;
-import entities.Layout;
+import entities.Apartment_Reserv.Apartment;
 
 import java.util.List;
 

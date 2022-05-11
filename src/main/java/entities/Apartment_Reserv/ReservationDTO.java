@@ -1,5 +1,6 @@
-package entities;
+package entities.Apartment_Reserv;
 
+import entities.Apartment_Reserv.Layout;
 import lombok.Getter;
 import lombok.Setter;
 

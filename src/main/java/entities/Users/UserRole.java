@@ -1,4 +1,4 @@
-package entities;
+package entities.Users;
 
 public enum UserRole {
     CLIENT("client"),

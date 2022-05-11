@@ -1,5 +1,6 @@
-package entities;
+package entities.Users;
 
+import entities.Apartment_Reserv.ReservationDTO;
 import lombok.Getter;
 import lombok.Setter;
 

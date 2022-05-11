@@ -1,4 +1,4 @@
-package entities;
+package entities.Apartment_Reserv;
 
 public enum Layout {
     STANDARD("standard"),

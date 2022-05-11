@@ -1,18 +1,21 @@
 package database.interfaces;
 
-import entities.Apartment;
-import entities.ReservationDTO;
+import entities.Apartment_Reserv.Reservation;
 
 import java.util.List;
 
 public interface ReservationDAO {
 
-    void editReservation(ReservationDTO reservationDTO);
+    void editReservation(Reservation reservation);
 
     void removeReservationWithId(int id);
 
-    void addReservation(Apartment apartment);
+    void addReservation(Reservation reservation);
 
-    ReservationDTO getReservationWithId(int id);
-    List<Apartment> getReservationsforRoom(int id);
+    void removeReservationWithClientId(int id);
+
+    void removeReservationWithRoomId(int id);
+
+    Reservation getReservationWithId(int id);
+    List<Reservation> getReservationsforRoom(int id);
 }
