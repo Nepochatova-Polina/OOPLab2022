@@ -1,13 +1,10 @@
 package entities;
 
 public enum Layout {
-    STANDART("standard"),
+    STANDARD("standard"),
     DELUXE("deluxe"),
     JOINT("joint"),
     SUITE("suite");
-
-
-
     private final String text;
 
     Layout(String text) {

@@ -7,12 +7,14 @@ import lombok.Setter;
 @Setter
 public class Reservation {
     private int clientId;
-    private String firstDate;
-    private String lastDate;
+    private int roomId;
+    private String arrival;
+    private String depature;
 
-    public Reservation(int clientId, String firstDate, String lastDate) {
+    public Reservation(int clientId, int roomId, String arrival, String depature) {
         this.clientId = clientId;
-        this.firstDate = firstDate;
-        this.lastDate = lastDate;
+        this.roomId = roomId;
+        this.arrival = arrival;
+        this.depature = depature;
     }
 }
