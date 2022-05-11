@@ -27,8 +27,12 @@ public class Reservation_impl implements ReservationDAO {
     private static final String REMOVE_RESERVATION_WITH_CLIENT_ID_QUERY =
             "DELETE FROM reservations WHERE reservations.client_id = ?";
 
-    private static final String GET_RESERVATION_WITH_ID_QUERY =
+    private static final String GET_RESERVATION_BY_ID_QUERY =
             "SELECT reservations.id, client_id, room_id, check_in, check_out, bill FROM reservations WHERE reservations.id = ?";
+    private static final String GET_RESERVATION_BY_ROOM_ID_QUERY =
+            "SELECT reservations.id, client_id, room_id, check_in, check_out, bill FROM reservations WHERE reservations.room_id = ?";
+    private static final String GET_RESERVATION_BY_CLIENT_ID_QUERY =
+            "SELECT reservations.id, client_id, room_id, check_in, check_out, bill FROM reservations WHERE reservations.client_id = ?";
 
     private static final String ALL_RESERVATIONS_FOR_ROOM_QUERY =
             "SELECT reservations.id, reservations.client_id, reservations.room_id, reservations.check_in, reservations.check_out FROM reservations INNER JOIN apartments ON apartments.id = reservations.room_id";
@@ -79,7 +83,7 @@ public class Reservation_impl implements ReservationDAO {
     }
 
     @Override
-    public void removeReservationWithId(int id) {
+    public void removeReservationById(int id) {
         Connection connection = Connection_db.getConnection();
         log.info("Connected to the database.");
         try (PreparedStatement prepareStatement = connection.prepareStatement(REMOVE_RESERVATION_WITH_ID_QUERY)) {
@@ -93,7 +97,7 @@ public class Reservation_impl implements ReservationDAO {
     }
 
     @Override
-    public void removeReservationWithClientId(int id) {
+    public void removeReservationByClientId(int id) {
         Connection connection = Connection_db.getConnection();
         log.info("Connected to the database.");
         try (PreparedStatement prepareStatement = connection.prepareStatement(REMOVE_RESERVATION_WITH_CLIENT_ID_QUERY)) {
@@ -107,7 +111,7 @@ public class Reservation_impl implements ReservationDAO {
     }
 
     @Override
-    public void removeReservationWithRoomId(int id) {
+    public void removeReservationByRoomId(int id) {
         Connection connection = Connection_db.getConnection();
         log.info("Connected to the database.");
         try (PreparedStatement prepareStatement = connection.prepareStatement(REMOVE_RESERVATION_WITH_ROOM_ID_QUERY)) {
@@ -121,11 +125,11 @@ public class Reservation_impl implements ReservationDAO {
     }
 
     @Override
-    public Reservation getReservationWithId(int id) {
+    public Reservation getReservationById(int id) {
         Reservation reservation = null;
         Connection connection = Connection_db.getConnection();
         log.info("Connected to the database.");
-        try (PreparedStatement prepareStatement = connection.prepareStatement(GET_RESERVATION_WITH_ID_QUERY)) {
+        try (PreparedStatement prepareStatement = connection.prepareStatement(GET_RESERVATION_BY_ID_QUERY)) {
             prepareStatement.setInt(1, id);
             ResultSet resultSet = prepareStatement.executeQuery();
             if (resultSet.next()) {
@@ -136,7 +140,7 @@ public class Reservation_impl implements ReservationDAO {
                 String check_out = resultSet.getString(5);
                 int bill = resultSet.getInt(6);
                 if (id == reservId) {
-                    reservation = new Reservation(id, client_id, room_id, check_in, check_out,bill);
+                    reservation = new Reservation(id, client_id, room_id, check_in, check_out, bill);
                 }
                 log.info("Found reservation with id.");
             } else {
@@ -148,13 +152,12 @@ public class Reservation_impl implements ReservationDAO {
         return reservation;
     }
 
-
     @Override
-    public List<Reservation> getReservationsforRoom(int id) {
-        List<Reservation> roomReservations = new ArrayList<>();
+    public Reservation getReservationByRoomId(int id) {
+        Reservation reservation = null;
         Connection connection = Connection_db.getConnection();
         log.info("Connected to the database.");
-        try (PreparedStatement prepareStatement = connection.prepareStatement(GET_RESERVATION_WITH_ID_QUERY)) {
+        try (PreparedStatement prepareStatement = connection.prepareStatement(GET_RESERVATION_BY_ROOM_ID_QUERY)) {
             prepareStatement.setInt(1, id);
             ResultSet resultSet = prepareStatement.executeQuery();
             if (resultSet.next()) {
@@ -164,8 +167,64 @@ public class Reservation_impl implements ReservationDAO {
                 String check_in = resultSet.getString(4);
                 String check_out = resultSet.getString(5);
                 int bill = resultSet.getInt(6);
-                if (id == reservId) {
-                    roomReservations.add(new Reservation(id, client_id, room_id, check_in, check_out,bill));
+                if (id == room_id) {
+                    reservation = new Reservation(reservId, client_id, room_id, check_in, check_out, bill);
+                }
+                log.info("Found reservation with id.");
+            } else {
+                log.info("Couldn't find reservation with the given id.");
+            }
+        } catch (SQLException e) {
+            log.warning("Problems with connection");
+        }
+        return reservation;
+    }
+
+    @Override
+    public Reservation getReservationByClientId(int id) {
+        Reservation reservation = null;
+        Connection connection = Connection_db.getConnection();
+        log.info("Connected to the database.");
+        try (PreparedStatement prepareStatement = connection.prepareStatement(GET_RESERVATION_BY_CLIENT_ID_QUERY)) {
+            prepareStatement.setInt(1, id);
+            ResultSet resultSet = prepareStatement.executeQuery();
+            if (resultSet.next()) {
+                int reservId = resultSet.getInt(1);
+                int client_id = resultSet.getInt(2);
+                int room_id = resultSet.getInt(3);
+                String check_in = resultSet.getString(4);
+                String check_out = resultSet.getString(5);
+                int bill = resultSet.getInt(6);
+                if (id == client_id) {
+                    reservation = new Reservation(reservId, client_id, room_id, check_in, check_out, bill);
+                }
+                log.info("Found reservation with id.");
+            } else {
+                log.info("Couldn't find reservation with the given id.");
+            }
+        } catch (SQLException e) {
+            log.warning("Problems with connection");
+        }
+        return reservation;
+    }
+
+    @Override
+    public List<Reservation> getReservationsforRoom(int id) {
+        List<Reservation> roomReservations = new ArrayList<>();
+        Connection connection = Connection_db.getConnection();
+        log.info("Connected to the database.");
+        try (PreparedStatement prepareStatement = connection.prepareStatement(GET_RESERVATION_BY_ID_QUERY)) {
+            prepareStatement.setInt(1, id);
+            ResultSet resultSet = prepareStatement.executeQuery();
+            if (resultSet.next()) {
+                int reservId = resultSet.getInt(1);
+                int client_id = resultSet.getInt(2);
+                int room_id = resultSet.getInt(3);
+                String check_in = resultSet.getString(4);
+                String check_out = resultSet.getString(5);
+                int bill = resultSet.getInt(6);
+                if (id == room_id) {
+                    roomReservations.add(new Reservation(reservId, client_id, room_id, check_in, check_out, bill));
                 }
                 log.info("Found reservation with id.");
             } else {

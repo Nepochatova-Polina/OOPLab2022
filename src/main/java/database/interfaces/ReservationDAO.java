@@ -8,14 +8,19 @@ public interface ReservationDAO {
 
     void editReservation(Reservation reservation);
 
-    void removeReservationWithId(int id);
+    void removeReservationById(int id);
 
     void addReservation(Reservation reservation);
 
-    void removeReservationWithClientId(int id);
+    void removeReservationByClientId(int id);
 
-    void removeReservationWithRoomId(int id);
+    void removeReservationByRoomId(int id);
 
-    Reservation getReservationWithId(int id);
+    Reservation getReservationById(int id);
+
+    Reservation getReservationByRoomId(int id);
+
+    Reservation getReservationByClientId(int id);
+
     List<Reservation> getReservationsforRoom(int id);
 }
