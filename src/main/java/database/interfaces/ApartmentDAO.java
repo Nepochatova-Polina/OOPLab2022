@@ -8,11 +8,11 @@ public interface ApartmentDAO {
 
     void editApartment(Apartment apartment);
 
-    Apartment getApartmentWithId(int id);
+    Apartment getApartmentById(int id);
 
-    void removeApartmentWithId(int id);
+    void removeApartmentById(int id);
 
     void addApartment(Apartment apartment);
 
-    List<Apartment> getApartments();
+    List<Apartment> getAllApartments();
 }

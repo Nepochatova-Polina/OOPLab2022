@@ -77,7 +77,7 @@ public class Apartment_impl implements ApartmentDAO {
     }
 
     @Override
-    public Apartment getApartmentWithId(int id) {
+    public Apartment getApartmentById(int id) {
         Apartment apartment = null;
         Connection connection = Connection_db.getConnection();
         log.info("Connected to the database.");
@@ -104,7 +104,7 @@ public class Apartment_impl implements ApartmentDAO {
     }
 
     @Override
-    public void removeApartmentWithId(int id) {
+    public void removeApartmentById(int id) {
         Connection connection = Connection_db.getConnection();
         log.info("Connected to the database.");
         try (PreparedStatement prepareStatement = connection.prepareStatement(REMOVE_APARTMENT_WITH_ID_QUERY)) {
@@ -119,7 +119,7 @@ public class Apartment_impl implements ApartmentDAO {
 
 
     @Override
-    public List<Apartment> getApartments() {
+    public List<Apartment> getAllApartments() {
         log.info("Getting Apartments from the database.");
         List<Apartment> apartments = new ArrayList<>();
         Connection connection = Connection_db.getConnection();
@@ -141,15 +141,4 @@ public class Apartment_impl implements ApartmentDAO {
         return apartments;
     }
 
-//    public static void main(String[] args) throws Exception {
-//        Connection_db l = new Connection_db();
-//        Apartment_impl x = new Apartment_impl();
-////        x.addApartment(new Apartment( 252, Layout.JOINT, 12, 552));
-////        x.editApartment(new Apartment( 2,266, Layout.JOINT, 4, 202));
-////        x.getApartmentWithId(2);
-////        x.removeApartmentWithId(3);
-//        List<Apartment> apartments = x.getApartments();
-//        System.out.println(apartments);
-//
-//    }
 }

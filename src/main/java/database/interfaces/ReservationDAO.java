@@ -14,13 +14,11 @@ public interface ReservationDAO {
 
     void removeReservationByClientId(int id);
 
-    void removeReservationByRoomId(int id);
+    void removeReservationByApartmentId(int id);
 
     Reservation getReservationById(int id);
 
-    Reservation getReservationByRoomId(int id);
-
     Reservation getReservationByClientId(int id);
 
-    List<Reservation> getReservationsforRoom(int id);
+    List<Reservation> getAllReservationsForApartment(int id);
 }

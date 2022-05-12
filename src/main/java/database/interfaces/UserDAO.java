@@ -9,9 +9,9 @@ public interface UserDAO {
 
     void registerUser(User user);
 
-    UserService.UserInfo findUser(String name, String password);
+    User findUser(String name, String password);
 
-    void editUser(User user);
+    void editUser(User user) throws Exception;
 
     List<User> getClientUsers();
 

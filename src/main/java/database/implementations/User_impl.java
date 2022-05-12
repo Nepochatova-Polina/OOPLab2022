@@ -51,7 +51,7 @@ public class User_impl implements UserDAO {
     }
 
     @Override
-    public UserService.UserInfo findUser(String name, String password) {
+    public User findUser(String name, String password) {
         log.info("Checking username and password");
         Connection connection = Connection_db.getConnection();
         log.info("Connected to the database.");
@@ -63,7 +63,7 @@ public class User_impl implements UserDAO {
                 int id = resultSet.getInt(1);
                 UserRole role = UserRole.valueOf(resultSet.getString(2).toUpperCase());
                 log.info("Found user, redirecting to " + role + " page");
-                return new UserService.UserInfo(id, role);
+                return new User(id,name,password,role);
             }
         } catch (SQLException e) {
             log.warning("Problems with connection");
@@ -71,7 +71,7 @@ public class User_impl implements UserDAO {
         return null;
     }
     @Override
-    public void editUser(User user) {
+    public void editUser(User user) throws Exception {
         if (user == null) {
             log.info("Cannot add product because it was null.");
             return;
@@ -92,7 +92,6 @@ public class User_impl implements UserDAO {
         }
 
     }
-
     @Override
     public List<User> getClientUsers() {
         log.info("Getting client users from the database.");
