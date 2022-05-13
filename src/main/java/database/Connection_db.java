@@ -8,9 +8,8 @@ import java.util.logging.Logger;
 public class Connection_db {
     private static final Logger log = Logger.getLogger(User_impl.class.getName());
     public static Connection connection;
-    public static Statement statement;
 
-    public Connection_db() throws Exception {
+    public Connection_db(){
         String url = "jdbc:postgresql://localhost:15435/postgres";
         String login = "postgres";
         String password = "postgres";
@@ -34,7 +33,6 @@ public class Connection_db {
         } else {
            log.warning("Failed to make connection to database");
         }
-        statement = connection.createStatement();
     }
 
     public static Connection getConnection(){

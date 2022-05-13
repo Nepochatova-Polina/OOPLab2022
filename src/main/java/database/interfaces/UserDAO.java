@@ -11,7 +11,7 @@ public interface UserDAO {
 
     User findUser(String name, String password);
 
-    void editUser(User user) throws Exception;
+    void editUser(User user);
 
     List<User> getClientUsers();
 

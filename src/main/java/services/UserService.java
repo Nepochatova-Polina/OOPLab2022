@@ -18,7 +18,10 @@ public class UserService {
         UserDAO userDao = new User_impl();
         return userDao.findUser(name, password);
     }
-
+    public static void editUser(User user){
+        UserDAO userDao = new User_impl();
+        userDao.editUser(user);
+    }
     public static List<User> getClientUsers() {
         UserDAO userDao = new User_impl();
         return userDao.getClientUsers();

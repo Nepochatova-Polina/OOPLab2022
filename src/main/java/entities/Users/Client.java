@@ -14,4 +14,9 @@ public class Client extends User {
         super(id, name, password, UserRole.CLIENT);
         reservationDTO = new ReservationDTO();
     }
+
+    public Client(String name, String password, UserRole type) {
+        super(name, password, type);
+        reservationDTO = new ReservationDTO();
+    }
 }

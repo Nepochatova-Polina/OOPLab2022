@@ -71,7 +71,7 @@ public class User_impl implements UserDAO {
         return null;
     }
     @Override
-    public void editUser(User user) throws Exception {
+    public void editUser(User user){
         if (user == null) {
             log.info("Cannot add product because it was null.");
             return;
@@ -142,9 +142,10 @@ public class User_impl implements UserDAO {
         return user;
     }
 
-//    public static void main(String[] args) throws Exception {
-//        Connection_db connection_db = new Connection_db();
-//        User_impl x = new User_impl();
+    public static void main(String[] args) throws Exception {
+        Connection_db connection_db = new Connection_db();
+        User_impl x = new User_impl();
 //        x.registerUser(new User("Inna","I6957",UserRole.CLIENT));
-//    }
+        x.findUser("Alla","5840");
+    }
 }
