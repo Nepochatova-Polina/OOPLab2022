@@ -39,7 +39,8 @@ public class Reservation_impl implements ReservationDAO {
             log.info("Cannot add product because it was null.");
             return;
         }
-        Connection connection = Connection_db.getConnection();
+        Connection_db c_db = Connection_db.getC_db();
+        Connection connection = c_db.getConnection();
         log.info("Connected to the database.");
         try (PreparedStatement prepareStatement = connection.prepareStatement(ADD_RESERVATION_QUERY)) {
             prepareStatement.setInt(1, reservation.getClientId());
@@ -61,7 +62,8 @@ public class Reservation_impl implements ReservationDAO {
             log.info("Cannot add reservation because it was null.");
             return;
         }
-        Connection connection = Connection_db.getConnection();
+        Connection_db c_db = Connection_db.getC_db();
+        Connection connection = c_db.getConnection();
         log.info("Connected to the database.");
         try (PreparedStatement prepareStatement = connection.prepareStatement(EDIT_RESERVATION_QUERY)) {
             prepareStatement.setInt(1, reservation.getClientId());
@@ -80,7 +82,8 @@ public class Reservation_impl implements ReservationDAO {
 
     @Override
     public void removeReservationById(int id) {
-        Connection connection = Connection_db.getConnection();
+        Connection_db c_db = Connection_db.getC_db();
+        Connection connection = c_db.getConnection();
         log.info("Connected to the database.");
         try (PreparedStatement prepareStatement = connection.prepareStatement(REMOVE_RESERVATION_WITH_ID_QUERY)) {
             prepareStatement.setInt(1, id);
@@ -94,7 +97,8 @@ public class Reservation_impl implements ReservationDAO {
 
     @Override
     public void removeReservationByClientId(int id) {
-        Connection connection = Connection_db.getConnection();
+        Connection_db c_db = Connection_db.getC_db();
+        Connection connection = c_db.getConnection();
         log.info("Connected to the database.");
         try (PreparedStatement prepareStatement = connection.prepareStatement(REMOVE_RESERVATION_WITH_CLIENT_ID_QUERY)) {
             prepareStatement.setInt(1, id);
@@ -108,7 +112,8 @@ public class Reservation_impl implements ReservationDAO {
 
     @Override
     public void removeReservationByApartmentId(int id) {
-        Connection connection = Connection_db.getConnection();
+        Connection_db c_db = Connection_db.getC_db();
+        Connection connection = c_db.getConnection();
         log.info("Connected to the database.");
         try (PreparedStatement prepareStatement = connection.prepareStatement(REMOVE_RESERVATION_WITH_ROOM_ID_QUERY)) {
             prepareStatement.setInt(1, id);
@@ -123,7 +128,8 @@ public class Reservation_impl implements ReservationDAO {
     @Override
     public Reservation getReservationById(int id) {
         Reservation reservation = null;
-        Connection connection = Connection_db.getConnection();
+        Connection_db c_db = Connection_db.getC_db();
+        Connection connection = c_db.getConnection();
         log.info("Connected to the database.");
         try (PreparedStatement prepareStatement = connection.prepareStatement(GET_RESERVATION_BY_ID_QUERY)) {
             prepareStatement.setInt(1, id);
@@ -152,7 +158,8 @@ public class Reservation_impl implements ReservationDAO {
     @Override
     public Reservation getReservationByClientId(int id) {
         Reservation reservation = null;
-        Connection connection = Connection_db.getConnection();
+        Connection_db c_db = Connection_db.getC_db();
+        Connection connection = c_db.getConnection();
         log.info("Connected to the database.");
         try (PreparedStatement prepareStatement = connection.prepareStatement(GET_RESERVATION_BY_CLIENT_ID_QUERY)) {
             prepareStatement.setInt(1, id);
@@ -180,7 +187,8 @@ public class Reservation_impl implements ReservationDAO {
     @Override
     public List<Reservation> getAllReservationsForApartment(int id) {
         List<Reservation> roomReservations = new ArrayList<>();
-        Connection connection = Connection_db.getConnection();
+        Connection_db c_db = Connection_db.getC_db();
+        Connection connection = c_db.getConnection();
         log.info("Connected to the database.");
         try (PreparedStatement prepareStatement = connection.prepareStatement(GET_RESERVATION_BY_ID_QUERY)) {
             prepareStatement.setInt(1, id);

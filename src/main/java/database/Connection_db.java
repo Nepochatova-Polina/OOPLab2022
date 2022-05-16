@@ -7,9 +7,10 @@ import java.util.logging.Logger;
 
 public class Connection_db {
     private static final Logger log = Logger.getLogger(User_impl.class.getName());
-    public static Connection connection;
+    private static Connection connection;
+    private static Connection_db c_db = new Connection_db();
 
-    public Connection_db(){
+    private Connection_db(){
         String url = "jdbc:postgresql://localhost:15435/postgres";
         String login = "postgres";
         String password = "postgres";
@@ -38,9 +39,9 @@ public class Connection_db {
     public static Connection getConnection(){
         return connection;
     }
+    public static Connection_db getC_db() { return c_db; }
 
     public void stop() throws SQLException {
         connection.close();
     }
 }
-

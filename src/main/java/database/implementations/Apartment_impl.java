@@ -37,7 +37,8 @@ public class Apartment_impl implements ApartmentDAO {
             log.info("Cannot add apartment because it was null.");
             return;
         }
-        Connection connection = Connection_db.getConnection();
+        Connection_db c_db = Connection_db.getC_db();
+        Connection connection = c_db.getConnection();
         log.info("Connected to the database.");
         try (PreparedStatement prepareStatement = connection.prepareStatement(ADD_APARTMENT_QUERY)) {
             prepareStatement.setString(1, apartment.getLayout().toString());
@@ -59,7 +60,8 @@ public class Apartment_impl implements ApartmentDAO {
             log.info("Cannot add apartment because it was null.");
             return;
         }
-        Connection connection = Connection_db.getConnection();
+        Connection_db c_db = Connection_db.getC_db();
+        Connection connection = c_db.getConnection();
         log.info("Connected to the database.");
         try (PreparedStatement prepareStatement = connection.prepareStatement(EDIT_APARTMENT_QUERY)) {
             prepareStatement.setInt(1, apartment.getId());
@@ -79,7 +81,8 @@ public class Apartment_impl implements ApartmentDAO {
     @Override
     public Apartment getApartmentById(int id) {
         Apartment apartment = null;
-        Connection connection = Connection_db.getConnection();
+        Connection_db c_db = Connection_db.getC_db();
+        Connection connection = c_db.getConnection();
         log.info("Connected to the database.");
         try (PreparedStatement prepareStatement = connection.prepareStatement(GET_APARTMENT_BY_ID_QUERY)) {
             prepareStatement.setInt(1, id);
@@ -105,7 +108,8 @@ public class Apartment_impl implements ApartmentDAO {
 
     @Override
     public void removeApartmentById(int id) {
-        Connection connection = Connection_db.getConnection();
+        Connection_db c_db = Connection_db.getC_db();
+        Connection connection = c_db.getConnection();
         log.info("Connected to the database.");
         try (PreparedStatement prepareStatement = connection.prepareStatement(REMOVE_APARTMENT_WITH_ID_QUERY)) {
             prepareStatement.setInt(1, id);
@@ -122,7 +126,8 @@ public class Apartment_impl implements ApartmentDAO {
     public List<Apartment> getAllApartments() {
         log.info("Getting Apartments from the database.");
         List<Apartment> apartments = new ArrayList<>();
-        Connection connection = Connection_db.getConnection();
+        Connection_db c_db = Connection_db.getC_db();
+        Connection connection = c_db.getConnection();
         log.info("Connected to the database.");
         try (PreparedStatement prepareStatement = connection.prepareStatement(GET_ALL_APARTMENTS_QUERY)) {
             ResultSet resultSet = prepareStatement.executeQuery();
