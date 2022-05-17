@@ -1,8 +1,13 @@
 package services;
 
+import database.implementations.Apartment_impl;
 import database.implementations.Reservation_impl;
+import database.interfaces.ApartmentDAO;
 import database.interfaces.ReservationDAO;
+import entities.Apartment_Reserv.Apartment;
+import entities.Apartment_Reserv.Layout;
 import entities.Apartment_Reserv.Reservation;
+import entities.Apartment_Reserv.ReservationDTO;
 
 import java.util.List;
 
@@ -38,7 +43,10 @@ public class ReservationService {
         ReservationDAO reservationDao = new Reservation_impl();
         reservationDao.removeReservationByClientId(id);
     }
-
+    public static List<Integer> getApartmentByLayoutAndOccupancy(ReservationDTO reservationDTO) {
+        ReservationDAO reservationDAO = new Reservation_impl();
+        return reservationDAO.getReservationsForPeriod(reservationDTO);
+    }
     public static List<Reservation> getAllReservationsForApartment(int id) {
         ReservationDAO reservationDao = new Reservation_impl();
         return reservationDao.getAllReservationsForApartment(id);

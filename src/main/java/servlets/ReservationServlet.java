@@ -1,0 +1,69 @@
+package servlets;
+
+import com.google.gson.Gson;
+import database.implementations.Apartment_impl;
+import entities.Apartment_Reserv.Apartment;
+import entities.Apartment_Reserv.Layout;
+import entities.Apartment_Reserv.Reservation;
+import entities.Apartment_Reserv.ReservationDTO;
+import entities.Users.User;
+import entities.Users.UserRole;
+import services.ApartmentService;
+import services.ReservationService;
+import services.UserService;
+
+import javax.servlet.*;
+import javax.servlet.http.*;
+import javax.servlet.annotation.*;
+import java.io.IOException;
+import java.net.CookieStore;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Logger;
+
+@WebServlet("/Reservation")
+public class ReservationServlet extends HttpServlet {
+    private static final Logger log = Logger.getLogger(LoginServlet.class.getName());
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//        response.getWriter().println("THIS IS RESERVATION SERVLET");
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        log.info("Received data for reservation.");
+        if (response == null || request == null) {
+            throw new IllegalArgumentException("Response/request must not be null.");
+        }
+        Cookie[] cookie = request.getCookies();
+        Gson gson = new Gson();
+        Map<String, String[]> parameterMap = request.getParameterMap();
+        Layout layout = Layout.valueOf(parameterMap.get("layout")[0]);
+        int occupancy = Integer.parseInt(parameterMap.get("occupancy")[0]);
+        String check_in = parameterMap.get("Check-in")[0];
+        String check_out = parameterMap.get("Check-out")[0];
+        ReservationDTO reservationDTO = new ReservationDTO(layout, occupancy, check_in, check_out);
+        List<Integer> apartmentsId = ReservationService.getApartmentByLayoutAndOccupancy(reservationDTO);
+        if(apartmentsId != null) {
+            log.info(String.valueOf(apartmentsId.size()));
+            Apartment apartment = ApartmentService.getApartmentById(apartmentsId.get(0));
+            long days = ChronoUnit.DAYS.between(LocalDate.parse(check_in), LocalDate.parse(check_out));
+            int bill = Integer.parseInt(String.valueOf(days * apartment.getPrice()));
+            Reservation reservation = new Reservation(Integer.parseInt(cookie[0].getValue()), apartmentsId.get(0), check_in, check_out, bill);
+            ReservationService.addReservation(reservation);
+            response.setStatus(HttpServletResponse.SC_OK);
+
+            request.setAttribute("Apartment_number",apartment.getApNumber());
+            request.setAttribute("bill",bill);
+            RequestDispatcher requestDispatcher= request.getRequestDispatcher("bill.jsp");
+            requestDispatcher.forward(request, response);
+        }else {
+            log.info("No free apartments");
+            response.getWriter().println(gson.toJson("Sorry, this time booked"));
+        }
+    }
+}

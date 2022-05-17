@@ -2,14 +2,19 @@ package database.implementations;
 
 import database.Connection_db;
 import database.interfaces.ReservationDAO;
+import entities.Apartment_Reserv.Apartment;
+import entities.Apartment_Reserv.Layout;
 import entities.Apartment_Reserv.Reservation;
+import entities.Apartment_Reserv.ReservationDTO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.logging.Logger;
 
 public class Reservation_impl implements ReservationDAO {
@@ -26,12 +31,18 @@ public class Reservation_impl implements ReservationDAO {
             "DELETE FROM reservations WHERE reservations.room_id = ?";
     private static final String REMOVE_RESERVATION_WITH_CLIENT_ID_QUERY =
             "DELETE FROM reservations WHERE reservations.client_id = ?";
+
     private static final String GET_RESERVATION_BY_ID_QUERY =
             "SELECT reservations.id, client_id, room_id, check_in, check_out, bill FROM reservations WHERE reservations.id = ?";
-    private static final String GET_RESERVATION_BY_ROOM_ID_QUERY =
+    private static final String GET_ALL_RESERVATION_BY_APARTMENT_ID_QUERY =
             "SELECT reservations.id, client_id, room_id, check_in, check_out, bill FROM reservations WHERE reservations.room_id = ?";
     private static final String GET_RESERVATION_BY_CLIENT_ID_QUERY =
             "SELECT reservations.id, client_id, room_id, check_in, check_out, bill FROM reservations WHERE reservations.client_id = ?";
+
+    private static final String GET_RESERVATIONS_FOR_PERIOD_QUERY =
+            " SELECT reservations.id, client_id, room_id, check_in, check_out, bill FROM reservations " +
+                    "INNER JOIN apartments a on a.id = reservations.room_id WHERE a.layout = ? and a.occupancy = ?";
+
 
     @Override
     public void addReservation(Reservation reservation) {
@@ -79,6 +90,7 @@ public class Reservation_impl implements ReservationDAO {
             log.warning("Problems with connection");
         }
     }
+
 
     @Override
     public void removeReservationById(int id) {
@@ -190,7 +202,7 @@ public class Reservation_impl implements ReservationDAO {
         Connection_db c_db = Connection_db.getC_db();
         Connection connection = c_db.getConnection();
         log.info("Connected to the database.");
-        try (PreparedStatement prepareStatement = connection.prepareStatement(GET_RESERVATION_BY_ID_QUERY)) {
+        try (PreparedStatement prepareStatement = connection.prepareStatement(GET_ALL_RESERVATION_BY_APARTMENT_ID_QUERY)) {
             prepareStatement.setInt(1, id);
             ResultSet resultSet = prepareStatement.executeQuery();
             if (resultSet.next()) {
@@ -211,6 +223,41 @@ public class Reservation_impl implements ReservationDAO {
             log.warning("Problems with connection");
         }
         return roomReservations;
+    }
+
+    @Override
+    public List<Integer> getReservationsForPeriod(ReservationDTO r_DTO) {
+        Connection_db c_db = Connection_db.getC_db();
+        Connection connection = c_db.getConnection();
+        log.info("Connected to the database.");
+
+        List<Integer> apartments = new ArrayList<>();
+        List<Integer> blackList = new ArrayList<>();
+
+        try (PreparedStatement prepareStatement = connection.prepareStatement(GET_RESERVATIONS_FOR_PERIOD_QUERY)) {
+            prepareStatement.setString(1, r_DTO.getLayout().toString());
+            prepareStatement.setInt(2, r_DTO.getOccupancy());
+            ResultSet resultSet = prepareStatement.executeQuery();
+            if (resultSet.next()) {
+                int reservId = resultSet.getInt(1);
+                int client_id = resultSet.getInt(2);
+                int room_id = resultSet.getInt(3);
+                String check_in = resultSet.getString(4);
+                String check_out = resultSet.getString(5);
+                int bill = resultSet.getInt(6);
+                apartments.add(room_id);
+                if(Objects.equals(r_DTO.getCheck_in(), check_in) || Objects.equals(r_DTO.getCheck_out(), check_out)){
+                    blackList.add(room_id);
+                }
+            } else {
+                log.info("Couldn't find reservation with the given id.");
+                return null;
+            }
+            apartments.removeAll(blackList);
+        } catch (SQLException e) {
+            log.warning("Problems with connection");
+        }
+        return apartments;
     }
 
 }

@@ -1,6 +1,8 @@
 package database.interfaces;
 
+import entities.Apartment_Reserv.Apartment;
 import entities.Apartment_Reserv.Reservation;
+import entities.Apartment_Reserv.ReservationDTO;
 
 import java.util.List;
 
@@ -21,4 +23,6 @@ public interface ReservationDAO {
     Reservation getReservationByClientId(int id);
 
     List<Reservation> getAllReservationsForApartment(int id);
+
+    List<Integer> getReservationsForPeriod(ReservationDTO r_DTO);
 }

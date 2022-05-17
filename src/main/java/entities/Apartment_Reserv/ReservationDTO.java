@@ -1,28 +1,25 @@
 package entities.Apartment_Reserv;
 
-import entities.Apartment_Reserv.Layout;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
 public class ReservationDTO {
-//    private int clientId;
     private Layout layout;
     private int occupancy;
-    private String arrival;
-    private String depature;
+    private String check_in;
+    private String check_out;
 
 
 
     public ReservationDTO() {
     }
 
-    public ReservationDTO(int clientId, Layout layout, int occupancy, String arrival, String depature) {
-//        this.clientId = clientId;
+    public ReservationDTO(Layout layout, int occupancy, String check_in, String check_out) {
         this.layout = layout;
         this.occupancy = occupancy;
-        this.arrival = arrival;
-        this.depature = depature;
+        this.check_in = check_in;
+        this.check_out = check_out;
     }
 }

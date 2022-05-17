@@ -12,12 +12,7 @@ public class LogoutServlet extends HttpServlet {
     private static final Logger log = Logger.getLogger(LogoutServlet.class.getName());
 
     @Override
-    public void init() {
-
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         log.info("Received logout request.");
         if (response == null || request == null) {
             throw new IllegalArgumentException("Response/request must not be null.");
@@ -37,7 +32,4 @@ public class LogoutServlet extends HttpServlet {
         response.sendRedirect("http://localhost:8080/login.jsp");
     }
 
-    @Override
-    public void destroy() {
-    }
 }

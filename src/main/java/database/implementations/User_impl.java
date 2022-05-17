@@ -147,10 +147,11 @@ public class User_impl implements UserDAO {
         return user;
     }
 
-    public static void main(String[] args) throws Exception {
-//        Connection_db connection_db = new Connection_db();
-        User_impl x = new User_impl();
-//        x.registerUser(new User("Inna","I6957",UserRole.CLIENT));
-        x.findUser("Alla","5840");
-    }
+//    public static void main(String[] args) throws Exception {
+////        Connection_db connection_db = new Connection_db();
+//        User_impl x = new User_impl();
+////        x.registerUser(new User("Inna","I6957",UserRole.CLIENT));
+//        User user = x.findUser("Inna","I6957");
+//        System.out.println(user.getId() + " " + user.getName() + " "+ user.getRole() + " " + user.getPassword());
+//    }
 }
