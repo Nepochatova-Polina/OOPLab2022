@@ -57,6 +57,7 @@
                     </div>
                     <div class="form-group">
                         <button type="submit" id="reservation-submit" class="btn btn-warning col"> Make Reservation</button>
+                        <p class="text-center">I want to go back <a href="Logout" style="color: yellow">Log out</a></p>
                     </div>
                 </form>
             </article>

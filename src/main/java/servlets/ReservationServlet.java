@@ -1,25 +1,23 @@
 package servlets;
 
 import com.google.gson.Gson;
-import database.implementations.Apartment_impl;
 import entities.Apartment_Reserv.Apartment;
 import entities.Apartment_Reserv.Layout;
 import entities.Apartment_Reserv.Reservation;
 import entities.Apartment_Reserv.ReservationDTO;
-import entities.Users.User;
-import entities.Users.UserRole;
 import services.ApartmentService;
 import services.ReservationService;
-import services.UserService;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
-import javax.servlet.annotation.*;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.net.CookieStore;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -28,12 +26,7 @@ import java.util.logging.Logger;
 public class ReservationServlet extends HttpServlet {
     private static final Logger log = Logger.getLogger(LoginServlet.class.getName());
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        response.getWriter().println("THIS IS RESERVATION SERVLET");
-    }
-
-    @Override
+       @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         log.info("Received data for reservation.");
         if (response == null || request == null) {
