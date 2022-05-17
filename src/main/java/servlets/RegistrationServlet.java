@@ -14,15 +14,7 @@ import java.util.logging.Logger;
 @WebServlet("/Registration")
 public class RegistrationServlet extends HttpServlet {
     private static final Logger log = Logger.getLogger(RegistrationServlet.class.getName());
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (response == null || request == null) {
-            throw new IllegalArgumentException("Response/request must not be null.");
-        }
-        ServletContext servletContext = getServletContext();
-        RequestDispatcher requestDispatcher = servletContext.getRequestDispatcher("/Registration");
-        requestDispatcher.forward(request, response);
-    }
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (response == null || request == null) {
@@ -39,7 +31,20 @@ public class RegistrationServlet extends HttpServlet {
             ServletContext servletContext = getServletContext();
             RequestDispatcher requestDispatcher = servletContext.getRequestDispatcher("/reservation.jsp");
             requestDispatcher.forward(request, response);
+        }else {
+            ServletContext servletContext = getServletContext();
+            RequestDispatcher requestDispatcher = servletContext.getRequestDispatcher("/AdminServlet");
+            requestDispatcher.forward(request, response);
         }
         response.setStatus(HttpServletResponse.SC_OK);
+    }
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if (response == null || request == null) {
+            throw new IllegalArgumentException("Response/request must not be null.");
+        }
+        ServletContext servletContext = getServletContext();
+        RequestDispatcher requestDispatcher = servletContext.getRequestDispatcher("/Registration");
+        requestDispatcher.forward(request, response);
     }
 }

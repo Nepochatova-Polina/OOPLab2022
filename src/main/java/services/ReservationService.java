@@ -47,8 +47,8 @@ public class ReservationService {
         ReservationDAO reservationDAO = new Reservation_impl();
         return reservationDAO.getReservationsForPeriod(reservationDTO);
     }
-    public static List<Reservation> getAllReservationsForApartment(int id) {
+    public static Reservation getLastReservation() {
         ReservationDAO reservationDao = new Reservation_impl();
-        return reservationDao.getAllReservationsForApartment(id);
+        return reservationDao.getLastReservationById();
     }
 }

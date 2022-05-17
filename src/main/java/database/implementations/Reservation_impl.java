@@ -2,8 +2,6 @@ package database.implementations;
 
 import database.Connection_db;
 import database.interfaces.ReservationDAO;
-import entities.Apartment_Reserv.Apartment;
-import entities.Apartment_Reserv.Layout;
 import entities.Apartment_Reserv.Reservation;
 import entities.Apartment_Reserv.ReservationDTO;
 
@@ -12,7 +10,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.logging.Logger;
@@ -43,6 +40,8 @@ public class Reservation_impl implements ReservationDAO {
             " SELECT reservations.id, client_id, room_id, check_in, check_out, bill FROM reservations " +
                     "INNER JOIN apartments a on a.id = reservations.room_id WHERE a.layout = ? and a.occupancy = ?";
 
+    private static final String GET_LAST_RESERVATION_QUERY =
+            "SELECT reservations.id, client_id, room_id, check_in, check_out, bill FROM reservations WHERE reservations.id = (SELECT MAX(id) FROM reservations)";
 
     @Override
     public void addReservation(Reservation reservation) {
@@ -260,4 +259,31 @@ public class Reservation_impl implements ReservationDAO {
         return apartments;
     }
 
+
+    @Override
+    public Reservation getLastReservationById() {
+        Reservation reservation = null;
+        Connection_db c_db = Connection_db.getC_db();
+        Connection connection = c_db.getConnection();
+        log.info("Connected to the database.");
+        try (PreparedStatement prepareStatement = connection.prepareStatement(GET_LAST_RESERVATION_QUERY)) {
+            ResultSet resultSet = prepareStatement.executeQuery();
+            if (resultSet.next()) {
+                int reservId = resultSet.getInt(1);
+                int client_id = resultSet.getInt(2);
+                int room_id = resultSet.getInt(3);
+                String check_in = resultSet.getString(4);
+                String check_out = resultSet.getString(5);
+                int bill = resultSet.getInt(6);
+                    reservation = new Reservation(reservId, client_id, room_id, check_in, check_out, bill);
+
+                log.info("Found reservation with id.");
+            } else {
+                log.info("Couldn't find reservation with the given id.");
+            }
+        } catch (SQLException e) {
+            log.warning("Problems with connection");
+        }
+        return reservation;
+    }
 }

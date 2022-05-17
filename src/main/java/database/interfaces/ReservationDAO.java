@@ -25,4 +25,6 @@ public interface ReservationDAO {
     List<Reservation> getAllReservationsForApartment(int id);
 
     List<Integer> getReservationsForPeriod(ReservationDTO r_DTO);
+
+    Reservation getLastReservationById();
 }

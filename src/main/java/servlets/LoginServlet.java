@@ -2,8 +2,11 @@ package servlets;
 
 import com.google.gson.Gson;
 import entities.Users.User;
+import entities.Users.UserRole;
 import services.UserService;
 
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
@@ -48,7 +51,11 @@ public class LoginServlet extends HttpServlet {
             response.addCookie(roleCookie);
 
             log.info("Redirecting to " + user.getRole().toString());
-            response.sendRedirect("reservation.jsp");
+            if(user.getRole() == UserRole.CLIENT) {
+                response.sendRedirect("reservation.jsp");
+            }else {
+                response.sendRedirect("/AdminServlet");
+            }
             response.setStatus(HttpServletResponse.SC_OK);
         } else {
             log.info("User doesn't exist");

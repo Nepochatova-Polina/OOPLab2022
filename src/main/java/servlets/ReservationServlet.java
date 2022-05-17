@@ -41,8 +41,8 @@ public class ReservationServlet extends HttpServlet {
         String check_out = parameterMap.get("Check-out")[0];
         ReservationDTO reservationDTO = new ReservationDTO(layout, occupancy, check_in, check_out);
         List<Integer> apartmentsId = ReservationService.getApartmentByLayoutAndOccupancy(reservationDTO);
+
         if(apartmentsId != null) {
-            log.info(String.valueOf(apartmentsId.size()));
             Apartment apartment = ApartmentService.getApartmentById(apartmentsId.get(0));
             long days = ChronoUnit.DAYS.between(LocalDate.parse(check_in), LocalDate.parse(check_out));
             int bill = Integer.parseInt(String.valueOf(days * apartment.getPrice()));
