@@ -40,13 +40,13 @@ public class ReservationServlet extends HttpServlet {
         String check_in = parameterMap.get("Check-in")[0];
         String check_out = parameterMap.get("Check-out")[0];
         ReservationDTO reservationDTO = new ReservationDTO(layout, occupancy, check_in, check_out);
-        List<Integer> apartmentsId = ReservationService.getApartmentByLayoutAndOccupancy(reservationDTO);
+        Integer apartmentId = ReservationService.getApartmentByLayoutAndOccupancy(reservationDTO);
 
-        if(apartmentsId != null) {
-            Apartment apartment = ApartmentService.getApartmentById(apartmentsId.get(0));
+        if(apartmentId != null) {
+            Apartment apartment = ApartmentService.getApartmentById(apartmentId);
             long days = ChronoUnit.DAYS.between(LocalDate.parse(check_in), LocalDate.parse(check_out));
             int bill = Integer.parseInt(String.valueOf(days * apartment.getPrice()));
-            Reservation reservation = new Reservation(Integer.parseInt(cookie[0].getValue()), apartmentsId.get(0), check_in, check_out, bill);
+            Reservation reservation = new Reservation(Integer.parseInt(cookie[0].getValue()), apartmentId, check_in, check_out, bill);
             ReservationService.addReservation(reservation);
             response.setStatus(HttpServletResponse.SC_OK);
 

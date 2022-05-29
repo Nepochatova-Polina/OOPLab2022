@@ -2,6 +2,7 @@ package database.implementations;
 
 import database.Connection_db;
 import database.interfaces.ReservationDAO;
+import entities.Apartment_Reserv.Apartment;
 import entities.Apartment_Reserv.Reservation;
 import entities.Apartment_Reserv.ReservationDTO;
 
@@ -37,8 +38,8 @@ public class Reservation_impl implements ReservationDAO {
             "SELECT reservations.id, client_id, room_id, check_in, check_out, bill FROM reservations WHERE reservations.client_id = ?";
 
     private static final String GET_RESERVATIONS_FOR_PERIOD_QUERY =
-            " SELECT reservations.id, client_id, room_id, check_in, check_out, bill FROM reservations " +
-                    "INNER JOIN apartments a on a.id = reservations.room_id WHERE a.layout = ? and a.occupancy = ?";
+            " SELECT reservations.id, client_id, room_id, check_in, check_out, bill FROM reservations r " +
+                    "INNER JOIN apartments a on a.id = r.room_id WHERE a.layout = ? and a.occupancy = ? and r.check_in <> ? and r.check_out <>?";
 
     private static final String GET_LAST_RESERVATION_QUERY =
             "SELECT reservations.id, client_id, room_id, check_in, check_out, bill FROM reservations WHERE reservations.id = (SELECT MAX(id) FROM reservations)";
@@ -225,14 +226,11 @@ public class Reservation_impl implements ReservationDAO {
     }
 
     @Override
-    public List<Integer> getReservationsForPeriod(ReservationDTO r_DTO) {
+    public Integer getReservationsForPeriod(ReservationDTO r_DTO) {
         Connection_db c_db = Connection_db.getC_db();
         Connection connection = c_db.getConnection();
         log.info("Connected to the database.");
-
-        List<Integer> apartments = new ArrayList<>();
-        List<Integer> blackList = new ArrayList<>();
-
+        int room_id = 0;
         try (PreparedStatement prepareStatement = connection.prepareStatement(GET_RESERVATIONS_FOR_PERIOD_QUERY)) {
             prepareStatement.setString(1, r_DTO.getLayout().toString());
             prepareStatement.setInt(2, r_DTO.getOccupancy());
@@ -240,23 +238,19 @@ public class Reservation_impl implements ReservationDAO {
             if (resultSet.next()) {
                 int reservId = resultSet.getInt(1);
                 int client_id = resultSet.getInt(2);
-                int room_id = resultSet.getInt(3);
+                 room_id = resultSet.getInt(3);
                 String check_in = resultSet.getString(4);
                 String check_out = resultSet.getString(5);
                 int bill = resultSet.getInt(6);
-                apartments.add(room_id);
-                if(Objects.equals(r_DTO.getCheck_in(), check_in) || Objects.equals(r_DTO.getCheck_out(), check_out)){
-                    blackList.add(room_id);
-                }
+
             } else {
                 log.info("Couldn't find reservation with the given id.");
                 return null;
             }
-            apartments.removeAll(blackList);
         } catch (SQLException e) {
             log.warning("Problems with connection");
         }
-        return apartments;
+        return room_id;
     }
 
 

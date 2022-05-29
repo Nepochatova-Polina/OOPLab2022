@@ -43,7 +43,7 @@ public class ReservationService {
         ReservationDAO reservationDao = new Reservation_impl();
         reservationDao.removeReservationByClientId(id);
     }
-    public static List<Integer> getApartmentByLayoutAndOccupancy(ReservationDTO reservationDTO) {
+    public static Integer getApartmentByLayoutAndOccupancy(ReservationDTO reservationDTO) {
         ReservationDAO reservationDAO = new Reservation_impl();
         return reservationDAO.getReservationsForPeriod(reservationDTO);
     }
