@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Reservation page</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+        .panel-heading {
+            color: #fff !important;
+            background-color: #f4511e !important;
+            padding: 25px;
+            border-bottom: 1px solid transparent;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+        .container-fluid {
+            padding: 60px 50px;
+        }
+        .panel-footer .btn {
+            margin: 15px 0;
+            background-color: #f4511e;
+            color: #fff;
+        }
+    </style>
+</head>
+<body id="myPage" data-target=".navbar" data-offset="60">
+
+<div id="Bill" class="container-fluid">
+    <div class="text-center">
+        <h2>Create reservation</h2>
+    </div>
+    <div class="row">
+        <div class="col-sm-4 col-xs-12"></div>
+        <div class="col-sm-4 col-xs-12">
+            <div class="panel panel-default text-center">
+                <div class="panel-heading">
+                    <h1>Your Reservation</h1>
+                </div>
+                <form id="reservation-form" method="post" th:action="@{/reservation}">
+                    <div class="panel-body">
+                        <label for="layout">Please select the layout:</label>
+                        <select name="layout" id="layout" class="form-control w-auto">
+                            <option value="STANDARD">Standard</option>
+                            <option value="DELUXE">Deluxe</option>
+                            <option value="JOINT">Joint</option>
+                            <option value="SUITE">Suite</option>
+                        </select>
+                        <label for="occupancy">
+                            Please select the occupancy:
+                        </label>
+                        <select name="occupancy" id="occupancy" class="form-control w-auto">
+                            <option value="1">One person</option>
+                            <option value="2">Two persons</option>
+                            <option value="3">Three persons</option>
+                            <option value="4">Four persons</option>
+                            <option value="5">Five persons</option>
+                            <option value="6">Six persons</option>
+                        </select>
+
+                        <div class="form-group">
+                            <label for="check_in">Check-in date:</label>
+                            <input
+                                    type="date"
+                                    format="dd.mm.yyyy"
+                                    name="check_in"
+                                    id="check_in"
+                                    placeholder="check_in"
+                                    required class="form-control col">
+                        </div>
+                        <div class="form-group">
+                            <label for="check_out">Check-out date:</label>
+                            <input
+                                    type="date"
+                                    name="check_out"
+                                    id="check_out"
+                                    placeholder="check_out"
+                                    required class="form-control col">
+                        </div>
+                        <div class="panel-footer" style="color: orange">
+                            <button type="submit" id="reservation-submit" class="btn btn-warning col">
+                                Make Reservation
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{assets/bootstrap-datepicker/js/bootstrap-datepicker.js}"></script>
+</html>

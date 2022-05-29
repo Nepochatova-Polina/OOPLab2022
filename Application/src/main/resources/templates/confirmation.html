@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Admin page</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+        .panel-heading {
+            color: #fff !important;
+            background-color: #f4511e !important;
+            padding: 25px;
+            border-bottom: 1px solid transparent;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+        .container-fluid {
+            padding: 60px 50px;
+        }
+        .panel-footer .btn {
+            margin: 15px 0;
+            background-color: #f4511e !important;
+            color: #fff;
+        }
+    </style>
+</head>
+<body id="myPage" data-target=".navbar" data-offset="60">
+
+<div id="Confirmation_form" class="container-fluid">
+    <div class="text-center">
+        <h2>Confirm</h2>
+    </div>
+    <div class="row">
+        <div th:each="el:${reservations}">
+            <form id="reservation-form" method="post" th:action="@{'/user/confirm/{id}'(id=${el.id})}">
+                <div class="col-sm-4 col-xs-12">
+                    <div class="panel panel-default text-center">
+                        <div class="panel-heading">
+                            <h1>Reservation</h1>
+                        </div>
+                        <div class="panel-body">
+                            <div>
+                                <h3>Reservation ID</h3><h4 th:text="${el.id}"></h4>
+                            </div>
+                            <div>
+                                <h3>Apartment number</h3><h4 th:text="${el.clientId}"></h4>
+                            </div>
+                            <div>
+                                <h3>layout:</h3><h4 th:text="${el.apartmentId}"></h4>
+                            </div>
+                            <div>
+                                <h3>Check in:</h3><h4 th:text="${el.check_in}"></h4>
+                            </div>
+                            <div>
+                                <h3>Check out:</h3><h4 th:text="${el.check_out}"></h4>
+                            </div>
+                            <div>
+                                <h3>Bill:</h3><h4 th:text="${el.bill}"></h4>
+                            </div>
+                        </div>
+                        <div class="panel-footer" style="color:#f4511e !important">
+                            <button type="submit" id="reservation-submit" class="btn btn-warning col"> Confirm
+                                Reservation
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
