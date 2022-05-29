@@ -2,11 +2,13 @@ package com.example.application.controllers;
 
 import com.example.application.Entities.Reservation;
 import com.example.application.Repositories.ReservationRepository;
-import com.example.application.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
@@ -42,8 +44,12 @@ public class AdminController {
                 break;
             }
         }
-        model.put("reservations",reservations);
-        modelAndView.setViewName("confirmation.html");
+        if(reservations.size() == 0){
+            modelAndView.setViewName("goodbyePage.html");
+        }else {
+            modelAndView.setViewName("confirmation.html");
+            model.put("reservations", reservations);
+        }
         return modelAndView;
     }
 

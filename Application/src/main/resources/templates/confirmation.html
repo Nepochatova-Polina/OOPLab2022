@@ -12,7 +12,7 @@
     <style>
         .panel-heading {
             color: #fff !important;
-            background-color: #f4511e !important;
+            background-color: #5F9EA0 !important;
             padding: 25px;
             border-bottom: 1px solid transparent;
             border-top-left-radius: 0;
@@ -20,22 +20,22 @@
             border-bottom-left-radius: 0;
             border-bottom-right-radius: 0;
         }
-
         .container-fluid {
             padding: 60px 50px;
         }
         .panel-footer .btn {
             margin: 15px 0;
-            background-color: #f4511e !important;
+            background-color: #5F9EA0;
             color: #fff;
         }
+
     </style>
 </head>
-<body id="myPage" data-target=".navbar" data-offset="60">
+<body id="myPage" data-target=".navbar" data-offset="60" style="background-color:#696969">
 
 <div id="Confirmation_form" class="container-fluid">
     <div class="text-center">
-        <h2>Confirm</h2>
+        <h2 style="color: #f6f6f6">Confirm</h2>
     </div>
     <div class="row">
         <div th:each="el:${reservations}">

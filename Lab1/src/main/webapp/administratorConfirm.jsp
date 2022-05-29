@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Registration</title>
+    <title>Confirmation</title>
     <%@ include file="/Bootstrap/bootstrap-css.html" %>
 </head>
 <body>
 <div class="container" id="container">
     <div class="container align-content-center">
         <br>
-        <h3 class="text-center">Reservation Form</h3>
+        <h3 class="text-center">Reservation</h3>
         <hr>
 
         <div class="card text-white bg-dark mx-auto" style="max-width: 600px;">
