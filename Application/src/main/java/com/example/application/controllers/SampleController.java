@@ -17,13 +17,13 @@ public class SampleController {
     }
 
     @GetMapping("/user")
-    @PreAuthorize("hasRole('user')")
+    @PreAuthorize("hasRole('USER')")
     public String getUserInfo() {
         return "user info";
     }
 
     @GetMapping("/admin")
-    @PreAuthorize("hasRole('admin')")
+    @PreAuthorize("hasRole('ADMIN')")
     public String getAdminInfo() {
         return "admin info";
     }

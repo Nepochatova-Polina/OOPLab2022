@@ -22,8 +22,8 @@ services:
       DB_DATABASE: postgres
       DB_USER: ${POSTGRES_USER:-postgres}
       DB_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
-      KEYCLOAK_USER: user
-      KEYCLOAK_PASSWORD: user_password
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin_password
     ports:
       - "8484:8080"
     depends_on:

@@ -32,12 +32,19 @@ public class ReservationController {
 
     private final ModelAndView modelAndView = new ModelAndView();
 
-    @PreAuthorize("hasRole('CLIENT')")
+    @PreAuthorize("hasRole('USER')")
+    @GetMapping("/reservation")
+    @ResponseBody
+    public ModelAndView reservation(){
+        modelAndView.setViewName("reservation.html");
+        return modelAndView;
+    }
+
+    @PreAuthorize("hasRole('USER')")
     @PostMapping("/reservation")
     @ResponseBody
     public ModelAndView addNewReservation(ReservationDTO reservationDTO, Map<String, Object> model){
-        String name = String.valueOf(SecurityContextHolder.getContext().getAuthentication().getName());
-        int client_id = userRepository.findByUsername(name).getId();
+        String client_id = SecurityContextHolder.getContext().getAuthentication().getName();
         List<Apartment> apartments =
                 apartmentRepository.findApartmentsByLayoutAndOccupancy( reservationDTO.getLayout(),
                         reservationDTO.getOccupancy(),
@@ -57,11 +64,5 @@ public class ReservationController {
         return modelAndView;
     }
 
-    @PreAuthorize("hasRole('CLIENT')")
-    @GetMapping("/reservation")
-    @ResponseBody
-    public ModelAndView registration(){
-        modelAndView.setViewName("reservation.html");
-        return modelAndView;
-    }
+
 }

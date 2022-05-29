@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("/administrator")
 public class AdminController {
     @Autowired
     private ReservationRepository reservationRepository;
@@ -23,7 +23,7 @@ public class AdminController {
     List<Reservation> reservations = new ArrayList<>();
 
 
-    @PreAuthorize("hasRole('ADMINISTRATOR')")
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/confirm")
     public ModelAndView confirmReserv(Map<String,Object> model){
         reservations = reservationRepository.findReservationsByConfirmation(false);
@@ -32,7 +32,7 @@ public class AdminController {
         return modelAndView;
     }
 
-    @PreAuthorize("hasRole('ADMINISTRATOR')")
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/confirm/{id}")
     public ModelAndView confirmReservation(@PathVariable int id, Map<String,Object> model){
         reservationRepository.updateReservationById(id);

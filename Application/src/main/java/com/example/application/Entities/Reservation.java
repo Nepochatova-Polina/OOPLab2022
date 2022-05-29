@@ -18,7 +18,7 @@ public class Reservation {
     @Column(name = "id", nullable = false)
     private int id;
     @Column(name = "user_id", nullable = false)
-    private int clientId;
+    private String clientId;
     @Column(name = "apartment_id", nullable = false)
     private int apartmentId;
     @Column(name = "check_in", nullable = false)
@@ -30,7 +30,7 @@ public class Reservation {
     @Column(name = "confirmation", nullable = false)
     private boolean confirmation = false;
 
-    public Reservation(int cliendId, int apartmentId, String check_in, String check_out, int bill) {
+    public Reservation(String cliendId, int apartmentId, String check_in, String check_out, int bill) {
         this.clientId = cliendId;
         this.apartmentId = apartmentId;
         this.check_in = check_in;

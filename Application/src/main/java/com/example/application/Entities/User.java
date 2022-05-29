@@ -13,19 +13,12 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "userdb")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private int id;
-    @Column(name = "username", nullable = false)
-    private String username;
-    @Column(name = "password", nullable = false)
-    private String password;
+    private String id;
 
-    @CollectionTable(name = "role",joinColumns = @JoinColumn(name = "user_id"))
-    @Enumerated(EnumType.STRING)
+    private String username;
+    private String password;
     private Role role;
 
     public User(String username, String password, Role role) {
